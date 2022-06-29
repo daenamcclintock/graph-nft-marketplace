@@ -69,6 +69,15 @@ export class ActiveItem extends Entity {
     this.set("nftAddress", Value.fromBytes(value));
   }
 
+  get tokenId(): BigInt {
+    let value = this.get("tokenId");
+    return value!.toBigInt();
+  }
+
+  set tokenId(value: BigInt) {
+    this.set("tokenId", Value.fromBigInt(value));
+  }
+
   get price(): BigInt | null {
     let value = this.get("price");
     if (!value || value.kind == ValueKind.NULL) {
@@ -163,7 +172,7 @@ export class ItemListed extends Entity {
   }
 }
 
-export class ItemCancelled extends Entity {
+export class ItemDeleted extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -171,18 +180,18 @@ export class ItemCancelled extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save ItemCancelled entity without an ID");
+    assert(id != null, "Cannot save ItemDeleted entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type ItemCancelled must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type ItemDeleted must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("ItemCancelled", id.toString(), this);
+      store.set("ItemDeleted", id.toString(), this);
     }
   }
 
-  static load(id: string): ItemCancelled | null {
-    return changetype<ItemCancelled | null>(store.get("ItemCancelled", id));
+  static load(id: string): ItemDeleted | null {
+    return changetype<ItemDeleted | null>(store.get("ItemDeleted", id));
   }
 
   get id(): string {

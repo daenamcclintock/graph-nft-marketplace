@@ -15,7 +15,7 @@ type ItemListed @entity {
     price: BigInt
 }
 
-type ItemCanceled @entity {
+type ItemDeleted @entity {
     id: ID!
     seller: Bytes! # address
     nftAddress: Bytes! # address
