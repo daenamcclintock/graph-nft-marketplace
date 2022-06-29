@@ -1,0 +1,32 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: NftMarketplace
+    network: rinkeby
+    source:
+      address: "0x487B2c051378ca0941CB3248a181a4121cF4e349"
+      abi: NftMarketplace
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - ItemBought
+        - ItemDeleted
+        - ItemListed
+        - ItemUpdated
+      abis:
+        - name: NftMarketplace
+          file: ./abis/NftMarketplace.json
+      eventHandlers:
+        - event: ItemBought(indexed address,indexed address,indexed uint256,uint256)
+          handler: handleItemBought
+        - event: ItemDeleted(indexed address,indexed address,indexed uint256)
+          handler: handleItemDeleted
+        - event: ItemListed(indexed address,indexed address,indexed uint256,uint256)
+          handler: handleItemListed
+        - event: ItemUpdated(indexed address,indexed address,indexed uint256,uint256)
+          handler: handleItemUpdated
+      file: ./src/nft-marketplace.ts
